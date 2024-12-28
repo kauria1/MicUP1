@@ -182,7 +182,7 @@ local function CreatePlatform()
     if character then
         local rootPart = character:WaitForChild("HumanoidRootPart")
         platform = Instance.new("Part")
-        platform.Size = Vector3.new(10, 2, 10)
+        platform.Size = Vector3.new(10000, 2, 10000)
         platform.Anchored = true
         platform.Transparency = 1
         platform.Position = rootPart.Position - Vector3.new(0, (character:WaitForChild("Humanoid").HipHeight + 2), 0)
