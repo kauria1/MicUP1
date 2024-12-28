@@ -59,6 +59,291 @@ local Button = MainTab:CreateButton({
    end,
 })
 
+local Button = MainTab:CreateButton({
+   Name = "AntiVoid - By NotTutu",
+   Callback = function()
+   -- Services
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local CoreGui = game:GetService("CoreGui")
+
+-- Variables
+local platform = nil
+local platformSpeed = 5
+local platformActive = false
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "FloatingPlatformGUI"
+screenGui.Parent = CoreGui
+screenGui.ResetOnSpawn = false
+
+-- Create Frame (Container for Buttons and TextBox)
+local frame = Instance.new("Frame")
+frame.Name = "ControlFrame"
+frame.Parent = screenGui
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.Position = UDim2.new(0.05, 0, 0.2, 0)
+frame.Size = UDim2.new(0, 200, 0, 200)
+
+-- Add UICorner to Frame
+local frameCorner = Instance.new("UICorner")
+frameCorner.CornerRadius = UDim.new(0, 16)
+frameCorner.Parent = frame
+
+-- Create TogglePlatformButton
+local TogglePlatformButton = Instance.new("TextButton")
+TogglePlatformButton.Parent = frame
+TogglePlatformButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+TogglePlatformButton.Position = UDim2.new(0.05, 0, 0.05, 0)
+TogglePlatformButton.Size = UDim2.new(0.9, 0, 0.2, 0)
+TogglePlatformButton.Font = Enum.Font.GothamBold
+TogglePlatformButton.Text = "Toggle Float"
+TogglePlatformButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TogglePlatformButton.TextSize = 18
+
+-- Add UICorner to TogglePlatformButton
+local TogglePlatformCorner = Instance.new("UICorner")
+TogglePlatformCorner.CornerRadius = UDim.new(0, 12)
+TogglePlatformCorner.Parent = TogglePlatformButton
+
+-- Create PlatformSpeedTextBox
+local PlatformSpeedTextBox = Instance.new("TextBox")
+PlatformSpeedTextBox.Parent = frame
+PlatformSpeedTextBox.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+PlatformSpeedTextBox.Position = UDim2.new(0.05, 0, 0.28, 0)
+PlatformSpeedTextBox.Size = UDim2.new(0.9, 0, 0.2, 0)
+PlatformSpeedTextBox.Font = Enum.Font.Gotham
+PlatformSpeedTextBox.PlaceholderText = "Float Elevation Speed"
+PlatformSpeedTextBox.Text = ""
+PlatformSpeedTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+PlatformSpeedTextBox.TextSize = 18
+
+-- Add UICorner to PlatformSpeedTextBox
+local PlatformSpeedCorner = Instance.new("UICorner")
+PlatformSpeedCorner.CornerRadius = UDim.new(0, 12)
+PlatformSpeedCorner.Parent = PlatformSpeedTextBox
+
+-- Create PlatformUpButton
+local PlatformUpButton = Instance.new("TextButton")
+PlatformUpButton.Parent = frame
+PlatformUpButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+PlatformUpButton.Position = UDim2.new(0.05, 0, 0.51, 0)
+PlatformUpButton.Size = UDim2.new(0.4, 0, 0.2, 0)
+PlatformUpButton.Font = Enum.Font.GothamBold
+PlatformUpButton.Text = "▲"
+PlatformUpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+PlatformUpButton.TextSize = 18
+
+-- Add UICorner to PlatformUpButton
+local PlatformUpCorner = Instance.new("UICorner")
+PlatformUpCorner.CornerRadius = UDim.new(0, 12)
+PlatformUpCorner.Parent = PlatformUpButton
+
+-- Create PlatformDownButton
+local PlatformDownButton = Instance.new("TextButton")
+PlatformDownButton.Parent = frame
+PlatformDownButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+PlatformDownButton.Position = UDim2.new(0.55, 0, 0.51, 0)
+PlatformDownButton.Size = UDim2.new(0.4, 0, 0.2, 0)
+PlatformDownButton.Font = Enum.Font.GothamBold
+PlatformDownButton.Text = "▼"
+PlatformDownButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+PlatformDownButton.TextSize = 18
+
+-- Add UICorner to PlatformDownButton
+local PlatformDownCorner = Instance.new("UICorner")
+PlatformDownCorner.CornerRadius = UDim.new(0, 12)
+PlatformDownCorner.Parent = PlatformDownButton
+
+-- Add Credits TextLabel Below
+local CreditsLabel = Instance.new("TextLabel")
+CreditsLabel.Parent = frame
+CreditsLabel.BackgroundTransparency = 1
+CreditsLabel.Position = UDim2.new(0.05, 0, 0.75, 0)
+CreditsLabel.Size = UDim2.new(0.9, 0, 0.15, 0)
+CreditsLabel.Font = Enum.Font.Gotham
+CreditsLabel.Text = "Credits: Made By Tutu"
+CreditsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+CreditsLabel.TextSize = 14
+CreditsLabel.TextWrapped = true
+CreditsLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+-- Add UICorner to CreditsLabel for consistency
+local CreditsCorner = Instance.new("UICorner")
+CreditsCorner.CornerRadius = UDim.new(0, 12)
+CreditsCorner.Parent = CreditsLabel
+
+-- Function to Create the Platform
+local function CreatePlatform()
+    local character = Players.LocalPlayer.Character
+    if character then
+        local rootPart = character:WaitForChild("HumanoidRootPart")
+        platform = Instance.new("Part")
+        platform.Size = Vector3.new(10, 2, 10)
+        platform.Anchored = true
+        platform.Transparency = 1
+        platform.Position = rootPart.Position - Vector3.new(0, (character:WaitForChild("Humanoid").HipHeight + 2), 0)
+        platform.Parent = workspace
+    end
+end
+
+-- Function to Update Platform Position
+local function UpdatePlatformPosition()
+    local character = Players.LocalPlayer.Character
+    if character and platform then
+        local rootPart = character:WaitForChild("HumanoidRootPart")
+        platform.Position = rootPart.Position - Vector3.new(0, (character:WaitForChild("Humanoid").HipHeight + 2), 0)
+    end
+end
+
+-- Function to Destroy the Platform
+local function DestroyPlatform()
+    if platform then
+        platform:Destroy()
+        platform = nil
+    end
+end
+
+-- Function to Move Platform Up
+local function MovePlatformUp()
+    if platform then
+        platform.Position = platform.Position + Vector3.new(0, platformSpeed * RunService.RenderStepped:Wait(), 0)
+    end
+end
+
+-- Function to Move Platform Down
+local function MovePlatformDown()
+    if platform then
+        platform.Position = platform.Position - Vector3.new(0, platformSpeed * RunService.RenderStepped:Wait(), 0)
+    end
+end
+
+-- Variables to Track Button Holding State
+local upHolding = false
+local downHolding = false
+
+-- Event Connections for PlatformUpButton
+PlatformUpButton.MouseButton1Down:Connect(function()
+    upHolding = true
+end)
+
+PlatformUpButton.MouseButton1Up:Connect(function()
+    upHolding = false
+end)
+
+-- Event Connections for PlatformDownButton
+PlatformDownButton.MouseButton1Down:Connect(function()
+    downHolding = true
+end)
+
+PlatformDownButton.MouseButton1Up:Connect(function()
+    downHolding = false
+end)
+
+-- Event Connection for TogglePlatformButton
+TogglePlatformButton.MouseButton1Click:Connect(function()
+    platformActive = not platformActive
+    if platformActive then
+        TogglePlatformButton.Text = "Untoggle Float"
+        if not platform then
+            CreatePlatform()
+        end
+        UpdatePlatformPosition()
+        platform.Transparency = 1
+    else
+        TogglePlatformButton.Text = "Toggle Float"
+        DestroyPlatform()
+    end
+end)
+
+-- Event Connection for PlatformSpeedTextBox
+PlatformSpeedTextBox.FocusLost:Connect(function()
+    local speed = tonumber(PlatformSpeedTextBox.Text)
+    if speed and speed > 0 then
+        platformSpeed = speed
+    else
+        platformSpeed = 5
+        PlatformSpeedTextBox.Text = "5"
+    end
+end)
+
+-- RenderStepped Connection for Continuous Updates
+RunService.RenderStepped:Connect(function()
+    if platformActive then
+        local character = Players.LocalPlayer.Character
+        if not character then return end
+        local playerPos = character.HumanoidRootPart.Position
+        if upHolding then
+            MovePlatformUp()
+        elseif downHolding then
+            MovePlatformDown()
+        end
+        if platform then
+            platform.Position = Vector3.new(playerPos.X, platform.Position.Y, playerPos.Z)
+        end
+    end
+end)
+
+-- Handle Character Respawn
+Players.LocalPlayer.CharacterAdded:Connect(function()
+    DestroyPlatform()
+    platformActive = false
+    TogglePlatformButton.Text = "Toggle Float"
+end)
+
+-- Handle Input End to Stop Holding
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        upHolding = false
+        downHolding = false
+    end
+end)
+
+-- Draggable UI Implementation
+local dragging = false
+local dragInput, mousePos, framePos
+
+local function update(input)
+    local delta = input.Position - mousePos
+    frame.Position = UDim2.new(
+        framePos.X.Scale,
+        framePos.X.Offset + delta.X,
+        framePos.Y.Scale,
+        framePos.Y.Offset + delta.Y
+    )
+end
+
+frame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        mousePos = input.Position
+        framePos = frame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+frame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
+
+   end,
+})
+
 
 local Button = MainTab:CreateButton({
    Name = "BasePlate",
@@ -88,6 +373,7 @@ local Button = MainTab:CreateButton({
    game:GetService("VoiceChatService"):joinVoice()
    end,
 })
+
 
 Window.ModifyTheme('Serenity')
         
