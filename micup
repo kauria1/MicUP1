@@ -383,14 +383,14 @@ local Button = MainTab:CreateButton({
 })
 
 
-local Button = MainTab:CreateButton({
+local Button = Tab:CreateButton({
    Name = "Rewind",
    Callback = function()
    loadstring(game:HttpGet("https://raw.githubusercontent.com/nomercy0000/rewind/refs/heads/main/reverse"))()
    end,
 })
 
-
+local Tab = Window:CreateTab("Trolling", 4483362458) -- Title, Image
 
 
 
