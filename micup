@@ -383,30 +383,7 @@ local Button = MainTab:CreateButton({
 })
 
 
-local Button = Tab:CreateButton({
-   Name = "Rewind",
-   Callback = function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/nomercy0000/rewind/refs/heads/main/reverse"))()
-   end,
-})
 
-local TrollingTab = Window:CreateTab("Trolling", 4483362458) -- Title, Image
-local Section = TrollingTab:CreateSection("Trolling")
-
-local Button = TrollingTab:CreateButton({
-   Name = "FaceFuck",
-   Callback = function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/nomercy0000/face-fuck/refs/heads/main/mic%20up"))()
-   end,
-})
-
-
-local Button = TrollingTab:CreateButton({
-   Name = "Rewind",
-   Callback = function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/nomercy0000/rewind/refs/heads/main/reverse"))()
-   end,
-})
 
 
 
